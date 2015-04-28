@@ -85,12 +85,17 @@ def svd(matrix):
     return (U, svs, sigma, Vt)
 
 
-def firstgraph(U, svs, Vt, alphabet):
-    xs = -U[:, 0]
-    ys = -Vt[0, :]
-    plt.plot(xs, ys, 'ro')
-    for i in range(0, len(xs)):
-        plt.annotate(alphabet[i], (xs[i], ys[i]))
+def graphs(U, Vt, alphabet):
+    for i in range(0,3):
+        fig = plt.figure(i)
+        fig.suptitle(str(i))
+        xs = U[:, i]
+        ys = Vt[i, :]
+        plt.plot(xs, ys, 'ro')
+        plt.axhline()
+        plt.axvline()
+        for i in range(0, len(xs)):
+            plt.annotate(alphabet[i], (xs[i], ys[i]))
     plt.show()
 
 if __name__ == '__main__':
@@ -99,17 +104,18 @@ if __name__ == '__main__':
     squares = filldict(wordlist, squares)
     A = makematrix(alphabet, 'english', squares)
     U, svs, sigma, Vt = svd(A)
-    firstgraph(U, svs, Vt, alphabet)
-    test = np.array([[1,2],[3,4]])
-    print test[:,0]
-    A, B, C, D = svd(test)
-    print 'U'
-    print A
-    print 'svs'
-    print B
-    print 'sigma'
-    print C
-    print 'Vt'
-    print D
+    graphs(U, Vt, alphabet)
+    plt.show()
+    # test = np.array([[1,2],[3,4]])
+    # print test[:,0]
+    # A, B, C, D = svd(test)
+    # print 'U'
+    # print A
+    # print 'svs'
+    # print B
+    # print 'sigma'
+    # print C
+    # print 'Vt'
+    # print D
 
-    print np.dot(np.dot(A, C), D)
+    # print np.dot(np.dot(A, C), D)

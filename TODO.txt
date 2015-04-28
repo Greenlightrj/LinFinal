@@ -1,13 +1,10 @@
 TODO
     
 MC  Find an example german text
+    Figure out how to make the code not freak out at ä and ß in German and apostrophes in Klingon (maybe replace with other unused characters like uppercases?)
 
-    SVD function 
-    http://stackoverflow.com/questions/24913232/using-numpy-np-linalg-svd-for-singular-value-decomposition
-    graph function (matplotlib?)
-
+RJ   More english text
 
 MAYBE DO
     Add more klingon text http://www.khemorex-klinzhai.de/e/Hol/
     Elvish.
-    More english text
