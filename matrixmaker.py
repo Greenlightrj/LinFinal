@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 
 def get_word_list(language='english'):
     """
-    Reads the file for the language and returns it as a list of words
+    Reads the file (fiel) for the language and returns it as a list of words
     also returns the appropriate language alphabet
     """
 
-    fiel = open(language + '.txt', 'r')
+    fiel = open(language + '.txt', 'r')#('test.txt', 'r') 
     txt = fiel.read()
 
     if language == 'english' or language == 'vigenere':
@@ -18,19 +18,19 @@ def get_word_list(language='english'):
             txt = txt.replace(dot, " ")
         txt = txt.lower()
         wordlist = txt.split()
-
-    elif language == 'german':
+        
+    #elif language == 'german':
         # i tried to do the alphabet but the program freaks out at funny
         # characters even in comments
-        for dot in punctuation:
-            txt = txt.replace(dot, " ")
-        txt = txt.lower()
-        wordlist = txt.split()
+        #for dot in punctuation:
+            #txt = txt.replace(dot, " ")
+        #txt = txt.lower()
+        #wordlist = txt.split()
 
-    elif language == 'klingon':
-        alphabet = ['a', 'b', 'ch', 'D', 'e', 'gh', 'H', 'I', 'j', 'l', 'm', 'n',
-                    'ng', 'o', 'p', 'q', 'Q', 'r', 'S', 't' 'tlh', 'u', 'v', 'w', 'y', "'"]
-        wordlist = txt.split()
+    #elif language == 'klingon':
+        #alphabet = ['a', 'b', 'ch', 'D', 'e', 'gh', 'H', 'I', 'j', 'l', 'm', 'n',
+                    #'ng', 'o', 'p', 'q', 'Q', 'r', 'S', 't' 'tlh', 'u', 'v', 'w', 'y', "'"]
+        #wordlist = txt.split()
 
     return (alphabet, wordlist)
 
@@ -40,11 +40,13 @@ def createdict(alphabet):
     creates a dictionary with keys as every combination of two letters in the 'letters' alphabet
     """
     squares = {}
+    alphabet2 = alphabet
     for letter in alphabet:
-        for letter2 in alphabet:
+        for letter2 in alphabet2:
             combo = (letter, letter2)
             squares[combo] = 0
     return squares
+
 
 
 def filldict(words, dictionary):
@@ -56,8 +58,9 @@ def filldict(words, dictionary):
             dictionary[(word[0], word[1])] += 1
         elif len(word) > 2:
             for i in range(0, len(word) - 2):
-                dictionary[(word[i], word[i + 2])] += 1
+                dictionary[(word[i], word[i + 1])] += 1    
     return dictionary
+
 
 
 def makematrix(letters, language, dictionary):
@@ -75,13 +78,14 @@ def makematrix(letters, language, dictionary):
 def svd(matrix):
     U, svs, Vt = np.linalg.svd(matrix)
     sigma = np.diag(svs)
-    #print 'U'
-    #print U
+    print 'U'
+    print U
     #print 'svs'
     #print svs
     #print 'sigma'
     #print sigma
-    #print 'Vt
+    print 'Vt'
+    print Vt
     return (U, svs, sigma, Vt)
 
 
@@ -89,13 +93,15 @@ def graphs(U, Vt, alphabet):
     for i in range(0,3):
         fig = plt.figure(i)
         fig.suptitle(str(i))
-        xs = U[:, i]
-        ys = Vt[i, :]
-        plt.plot(xs, ys, 'ro')
+        for j in range(0, len(alphabet)):
+            x = U[j, i]
+            y = Vt[i, j]
+            plt.plot(x, y, 'ro')
+            plt.annotate(alphabet[j], (x, y))
         plt.axhline()
         plt.axvline()
-        for i in range(0, len(xs)):
-            plt.annotate(alphabet[i], (xs[i], ys[i]))
+        plt.axis([-.7, .7, -.7, .7])
+            
     plt.show()
 
 if __name__ == '__main__':
