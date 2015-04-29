@@ -4,6 +4,9 @@ MC  Find an example german text
     Figure out how to make the code not freak out at ä and ß in German and apostrophes in Klingon (maybe replace with other unused characters like uppercases?)
 
 RJ   More english text
+    Put graphs on poster
+    Put explanations on poster
+    Put summaries on poster
 
 MAYBE DO
     Add more klingon text http://www.khemorex-klinzhai.de/e/Hol/
