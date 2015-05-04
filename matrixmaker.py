@@ -1,9 +1,10 @@
 from string import ascii_lowercase, punctuation
 import numpy as np
 import matplotlib.pyplot as plt
+# coding: utf-8
 
 
-def get_word_list(language='english'):
+def get_word_list(language='klingon1'):
     """
     Reads the file (fiel) for the language and returns it as a list of words
     also returns the appropriate language alphabet
@@ -19,18 +20,56 @@ def get_word_list(language='english'):
         txt = txt.lower()
         wordlist = txt.split()
         
-    #elif language == 'german':
+    elif language == 'german':
+        alphabet = 'a*bcdefghijklmno@pqrs$tu~vwxyz'
         # i tried to do the alphabet but the program freaks out at funny
         # characters even in comments
-        #for dot in punctuation:
-            #txt = txt.replace(dot, " ")
-        #txt = txt.lower()
-        #wordlist = txt.split()
+        german_punctiuation_remove = "'", "-"
+        for punct in german_punctiuation_remove:
+            txt = txt.replace(punct, "")
 
-    #elif language == 'klingon':
-        #alphabet = ['a', 'b', 'ch', 'D', 'e', 'gh', 'H', 'I', 'j', 'l', 'm', 'n',
+        german_punctiuation_space = ".", "?", "!", ",", ":", ";", "(", "#", ")"
+        for punctu in german_punctiuation_space:
+            txt = txt.replace(punctu, " ")
+        txt = txt.lower()
+        wordlist = txt.split()
+
+    elif language == 'klingon': 
+        alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"
+        #['a', 'b', 'ch', 'D', 'e', 'gh', 'H', 'I', 'j', 'l', 'm', 'n',
                     #'ng', 'o', 'p', 'q', 'Q', 'r', 'S', 't' 'tlh', 'u', 'v', 'w', 'y', "'"]
-        #wordlist = txt.split()
+        klingon_punctiuation_space = ".", "?", "!", ",", ":", ";", "(", "#", ")", '"',
+        for punctu in klingon_punctiuation_space:
+            txt = txt.replace(punctu, " ")
+        wordlist = txt.split()
+
+    elif language == 'klingon1': 
+        alphabet = "ab~De*HIjlmn@opqQrSt$uvwy'"
+        #['a', 'b', 'ch', 'D', 'e', 'gh', 'H', 'I', 'j', 'l', 'm', 'n',
+                    #'ng', 'o', 'p', 'q', 'Q', 'r', 'S', 't' 'tlh', 'u', 'v', 'w', 'y', "'"]
+        klingon_punctiuation_space = ".", ":", "?", '"', ',', "(", "#", ")"
+        for punct in klingon_punctiuation_space:
+            txt = txt.replace(punct, " ")
+        klingon_punctiuation_remove = "A", "B", "c", "C", "d", "E", "f", "F", "f", "g", "G", "h", "i", "J", "k", "K", "L", "M", "N", "O", "P", "R", "s", "T", "U", "V", "W", "x", "X", "Y", "z", "Z"
+        for punctu in klingon_punctiuation_remove:
+            txt = txt.replace(punctu, "")
+        wordlist = txt.split()
+
+
+
+    elif language == 'elvish':
+        alphabet = 'ajbcdekfghiq*lmnoxprstu@zvwy%'
+        
+        elvish_punctiuation_remove = "'", "-"
+        for punct in elvish_punctiuation_remove:
+            txt = txt.replace(punct, "")
+
+        elvish_punctiuation_space = ".", "?", "!", ",", ":"
+        for punctu in elvish_punctiuation_space:
+            txt = txt.replace(punctu, " ")
+
+        txt = txt.lower()
+        wordlist = txt.split()
 
     return (alphabet, wordlist)
 
@@ -78,14 +117,14 @@ def makematrix(letters, language, dictionary):
 def svd(matrix):
     U, svs, Vt = np.linalg.svd(matrix)
     sigma = np.diag(svs)
-    print 'U'
-    print U
+    #print 'U'
+    #print U
     #print 'svs'
     #print svs
     #print 'sigma'
     #print sigma
-    print 'Vt'
-    print Vt
+    #print 'Vt'
+    #print Vt
     return (U, svs, sigma, Vt)
 
 
@@ -100,7 +139,7 @@ def graphs(U, Vt, alphabet):
             plt.annotate(alphabet[j], (x, y))
         plt.axhline()
         plt.axvline()
-        plt.axis([-.7, .7, -.7, .7])
+        plt.axis([-.8, .8, -.8, .8])
             
     plt.show()
 
@@ -108,7 +147,7 @@ if __name__ == '__main__':
     (alphabet, wordlist) = get_word_list()
     squares = createdict(alphabet)
     squares = filldict(wordlist, squares)
-    A = makematrix(alphabet, 'english', squares)
+    A = makematrix(alphabet, 'elvish', squares)
     U, svs, sigma, Vt = svd(A)
     graphs(U, Vt, alphabet)
     plt.show()
